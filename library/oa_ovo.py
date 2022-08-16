@@ -1,80 +1,82 @@
 #!/usr/bin/python
 
-DOCUMENTATION = '''
+DOCUMENTATION = r'''
 ---
-module: github_repo
-short_description: Manage your repos on Github
+module: operationsagen_ovo
+version_added: '0.1'
+short_description: Execute commands for the OVO Agent
+author:
+    - Guido Martens 
 '''
 
-EXAMPLES = '''
-- name: restart ovo agent
-  oa_ovo:
-    action: restart
-  register: result
-
-- name: kill the ovo agent 
-  oa_ovo:
-    action: kill
-  register: result
+EXAMPLES = r'''
+- host: localhost
+  tasks:
+    - name: Stop the ovo agent
+      operationsagent:
+        action: stop
 '''
 
-from ansible.module_utils.basic import *
-import requests
+def run_module():
+    # define available arguments/parameters a user can pass to the module
+    module_args = dict(
+        action=dict(type='str', required=True),
+    )
 
-api_url = "https://api.github.com"
+    # seed the result dict in the object
+    # we primarily care about changed and state
+    # changed is if this module effectively modified the target
+    # state will include any data that you want your module to pass back
+    # for consumption, for example, in a subsequent task
+    result = dict(
+        changed=False,
+        original_message='',
+        message=''
+    )
 
+    # the AnsibleModule object will be our abstraction working with Ansible
+    # this includes instantiation, a couple of common attr would be the
+    # args/params passed to the execution, as well as if the module
+    # supports check mode
+    module = AnsibleModule(
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
 
-def oa_restart(data):
+    # if the user is working with this module in only check mode we do not
+    # want to make any changes to the environment, just return the current
+    # state with no modifications
+    if module.check_mode:
+        module.exit_json(**result)
 
-    api_key = data['github_auth_key']
+    # manipulate or modify the state as needed (this is going to be the
+    # part where your module will do what it needs to do)
+    result['original_message'] = module.params['name']
+    result['message'] = 'goodbye'
 
-    del data['state']
-    del data['github_auth_key']
+    # use whatever logic you need to determine whether or not this module
+    # made any modifications to your target
+    if module.params['new']:
+        result['changed'] = True
 
-    headers = {
-        "Authorization": "token {}" . format(api_key)
-    }
-    url = "{}{}" . format(api_url, '/user/repos')
-    result = requests.post(url, json.dumps(data), headers=headers)
+    # during the execution of the module, if there is an exception or a
+    # conditional state that effectively causes a failure, run
+    # AnsibleModule.fail_json() to pass in the message and the result
+    if module.params['name'] == 'fail me':
+        module.fail_json(msg='You requested this to fail', **result)
 
-    if result.status_code == 201:
-        return False, True, result.json()
-    if result.status_code == 422:
-        return False, False, result.json()
-
-    # default: something went wrong
-    meta = {"status": result.status_code, 'response': result.json()}
-    return True, False, meta
-
-
+    # in the event of a successful module execution, you will want to
+    # simple AnsibleModule.exit_json(), passing the key/value results
+    module.exit_json(**result)
 
 
 def main():
-
-    fields = {
-        "action": {
-            "default": "none",
-            "choices": ['start', 'stop', 'kill', 'restart'],
-            "type": 'str'
-        },
-    }
-
-    choice_map = {
-        "start": oa_start,
-        "stop": oa_stop,
-        "kill": oa_kill,
-        "restart": oa_restart,
-    }
-
-    module = AnsibleModule(argument_spec=fields)
-    is_error, has_changed, result = choice_map.get(
-        module.params['action'])(module.params)
-
-    if not is_error:
-        module.exit_json(changed=has_changed, meta=result)
-    else:
-        module.fail_json(msg="Error while executing action", meta=result)
+    run_module()
 
 
 if __name__ == '__main__':
     main()
+ 
+    
+
+
