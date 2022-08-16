@@ -22,6 +22,7 @@ class OperationsAgent:
      elif action == "stop":
      elif action == "kill":
      elif action == "restart":
+     elif action == "status":
      else:
        print("the given argument is incorrect")
 
