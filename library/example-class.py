@@ -16,7 +16,7 @@ class OperationsAgent:
      if action == "start":
        cmd = '/opt/OV/bin/ovc -start'
        os.system(cmd)
-       subprocess.Popen([cmdovo, ''])
+       subprocess.Popen([cmdovo, ' -start'], stdout = subprocess.PIPE))
        #do this
        print ("Executing " + process + "and " + action)
      elif action == "stop":
