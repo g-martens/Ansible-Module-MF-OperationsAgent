@@ -80,7 +80,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 def run_module():
     oa_ovo = False
-    oa_opcag = False
+    oa_opcagt = False
     oa_ovcert = False
     oa_ovconfchg = False
 
@@ -139,16 +139,16 @@ def run_module():
         action = module.params['action']
 
         if action == 'start':
-            command = os.system("/bin/cat /etc/nfs.conf")
-            exit = sys.exit(command)
+            command = "/bin/cat /etc/nfs.conf"
+            exit = os.system(command)
 
             #Result output
-            result['Executed tool'] = command
-            result['Exit code'] = exit
             if exit != 0:
                 module.fail_json(msg='Exit code is not 0', **result)
             else:
                 result['changed'] = True
+                result['Executed command'] = command
+                result['Exit code'] = exit
 
         elif action == 'stop':
             module.fail_json(msg='not yet inplementated', **result)
