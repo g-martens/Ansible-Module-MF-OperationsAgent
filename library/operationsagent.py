@@ -144,7 +144,7 @@ def run_module():
 
             #Result output
             if exit != 0:
-                result['message'] = "Could not execute command: exit code is 0"
+                result['message'] = "Could not start OVO"
                 result['Executed command'] = command
                 result['Exit code'] = exit
                 module.fail_json(msg='Could not execute command: exit code is 0', **result)
