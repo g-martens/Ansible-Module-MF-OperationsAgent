@@ -2,4 +2,5 @@
   tasks:
     - name:
       operationsagent:
-        action: stop, start, restart, cleanstart
+        process: ovo
+        action: start
