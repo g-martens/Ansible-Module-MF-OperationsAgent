@@ -139,14 +139,18 @@ def run_module():
         action = module.params['action']
 
         if action == 'start':
-            command = "/bin/cat /etc/nfs.conf"
+            command = "/opt/OV/bin/ovc -start"
             exit = os.system(command)
 
             #Result output
             if exit != 0:
-                module.fail_json(msg='Exit code is not 0', **result)
+                result['message'] = "Could not execute command: exit code is 0"
+                result['Executed command'] = command
+                result['Exit code'] = exit
+                module.fail_json(msg='Could not execute command: exit code is 0', **result)
             else:
                 result['changed'] = True
+                result['message'] = "OVO is started"
                 result['Executed command'] = command
                 result['Exit code'] = exit
 
@@ -180,19 +184,19 @@ def run_module():
 
 
 
-    result['original_message'] = module.params['name']
-    result['message'] = 'goodbye'
+    #result['original_message'] = module.params['name']
+    #result['message'] = 'goodbye'
 
     # use whatever logic you need to determine whether or not this module
     # made any modifications to your target
-    if module.params['new']:
-        result['changed'] = True
+    #if module.params['new']:
+    #    result['changed'] = True
 
     # during the execution of the module, if there is an exception or a
     # conditional state that effectively causes a failure, run
     # AnsibleModule.fail_json() to pass in the message and the result
-    if module.params['name'] == 'fail me':
-        module.fail_json(msg='You requested this to fail', **result)
+    #if module.params['name'] == 'fail me':
+    #    module.fail_json(msg='You requested this to fail', **result)
 
     # in the event of a successful module execution, you will want to
     # simple AnsibleModule.exit_json(), passing the key/value results
