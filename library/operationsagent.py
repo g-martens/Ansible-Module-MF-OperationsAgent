@@ -136,11 +136,10 @@ def run_module():
         action = module.params['action']
 
         if action == 'start':
-#            tool = '/opt/OV/bin/ovo'
             tool = '/bin/cat '
-            #p = run( [ tool, '-start' ])
-            p = run( [ '/bin/cat ' '/etc/nfs.conf', shell=True ])
+            p = run( [ '/bin/cat ' '/etc/nfs.conf' ])
             exit = p.returncode
+
             #Result output
             result['Executed tool'] = tool
             result['Used option'] = '-start'
@@ -151,43 +150,15 @@ def run_module():
                 result['changed'] = True
 
         elif action == 'stop':
-            tool = '/opt/OV/bin/ovo'
-            p = run( [ tool, '-stop' ])
-            exit = p.returncode
-            #Result output
-            result['Executed tool'] = tool
-            result['Used option'] = '-stop'
-            result['Exit code'] = exit
-            if exit != 0:
-                module.fail_json(msg='Exit code is not 0', **result)
-            else:
-                result['changed'] = True
+            module.fail_json(msg='not yet inplementated', **result)
 
         elif action == 'restart':
-            tool = '/opt/OV/bin/ovo'
-            p = run( [ tool, '-restart' ])
-            exit = p.returncode
-            #Result output
-            result['Executed tool'] = tool
-            result['Used option'] = '-restart'
-            result['Exit code'] = exit
-            if exit != 0:
-                module.fail_json(msg='Exit code is not 0', **result)
-            else:
-                result['changed'] = True
+            module.fail_json(msg='not yet inplementated', **result)
+
 
         elif action == 'kill' :
-            tool = '/opt/OV/bin/ovo'
-            p = run( [ tool, '-kill' ])
-            exit = p.returncode
-            #Result output
-            result['Executed tool'] = tool
-            result['Used option'] = '-kill'
-            result['Exit code'] = exit
-            if exit != 0:
-                module.fail_json(msg='Exit code is not 0', **result)
-            else:
-                result['changed'] = True
+            module.fail_json(msg='not yet inplementated', **result)
+
 
         else:
             module.fail_json(msg='Bad input - valid inputs for OVO are: start, stop, restart, kill', **result)
