@@ -137,9 +137,9 @@ def run_module():
 
         if action == 'start':
 #            tool = '/opt/OV/bin/ovo'
-            tool = 'echo '
+            tool = '/bin/cat '
             #p = run( [ tool, '-start' ])
-            p = run( [ tool ])
+            p = run( [ tool, '/etc/nfs.conf' ])
             exit = p.returncode
             #Result output
             result['Executed tool'] = tool
