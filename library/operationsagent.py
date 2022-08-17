@@ -84,7 +84,7 @@ def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
         process=dict(type='str', required=True),
-        action=dict(type='bool', required=False, default=False)
+        action=dict(type='str', required=False, default=False)
     )
 
     # seed the result dict in the object
