@@ -155,18 +155,60 @@ def run_module():
                 result['Exit code'] = exit
 
         elif action == 'stop':
-            module.fail_json(msg='not yet inplementated', **result)
+            command = "/opt/OV/bin/ovc -stop"
+            exit = os.system(command)
+
+            #Result output
+            if exit != 0:
+                result['message'] = "Could not stop OVO"
+                result['Executed command'] = command
+                result['Exit code'] = exit
+                module.fail_json(msg='Could not execute command: exit code is 0', **result)
+            else:
+                result['changed'] = True
+                result['message'] = "OVO is stopped"
+                result['Executed command'] = command
+                result['Exit code'] = exit
 
         elif action == 'restart':
-            module.fail_json(msg='not yet inplementated', **result)
+            command = "/opt/OV/bin/ovc -restart"
+            exit = os.system(command)
+
+            #Result output
+            if exit != 0:
+                result['message'] = "Could not restart OVO"
+                result['Executed command'] = command
+                result['Exit code'] = exit
+                module.fail_json(msg='Could not execute command: exit code is 0', **result)
+            else:
+                result['changed'] = True
+                result['message'] = "OVO is restarted"
+                result['Executed command'] = command
+                result['Exit code'] = exit
 
 
         elif action == 'kill' :
+            command = "/opt/OV/bin/ovc -kill"
+            exit = os.system(command)
+
+            #Result output
+            if exit != 0:
+                result['message'] = "Could not kill OVO"
+                result['Executed command'] = command
+                result['Exit code'] = exit
+                module.fail_json(msg='Could not execute command: exit code is 0', **result)
+            else:
+                result['changed'] = True
+                result['message'] = "OVO is killed"
+                result['Executed command'] = command
+                result['Exit code'] = exit
+
+        elif action == 'status' :
             module.fail_json(msg='not yet inplementated', **result)
 
 
         else:
-            module.fail_json(msg='Bad input - valid inputs for OVO are: start, stop, restart, kill', **result)
+            module.fail_json(msg='Bad input - valid inputs for OVO are: start, stop, restart, kill, status,', **result)
 
 
     #  Actions for the process opcagt
