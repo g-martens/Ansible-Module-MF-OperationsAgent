@@ -147,7 +147,7 @@ def run_module():
                 result['message'] = "Could not start OVO"
                 result['Executed command'] = command
                 result['Exit code'] = exit
-                module.fail_json(msg='Could not execute command: exit code is 0', **result)
+                module.fail_json(msg='Could not execute command: exit code is not 0', **result)
             else:
                 result['changed'] = True
                 result['message'] = "OVO is started"
@@ -163,7 +163,7 @@ def run_module():
                 result['message'] = "Could not stop OVO"
                 result['Executed command'] = command
                 result['Exit code'] = exit
-                module.fail_json(msg='Could not execute command: exit code is 0', **result)
+                module.fail_json(msg='Could not execute command: exit code is  not 0', **result)
             else:
                 result['changed'] = True
                 result['message'] = "OVO is stopped"
@@ -179,7 +179,7 @@ def run_module():
                 result['message'] = "Could not restart OVO"
                 result['Executed command'] = command
                 result['Exit code'] = exit
-                module.fail_json(msg='Could not execute command: exit code is 0', **result)
+                module.fail_json(msg='Could not execute command: exit code is not 0', **result)
             else:
                 result['changed'] = True
                 result['message'] = "OVO is restarted"
@@ -196,7 +196,7 @@ def run_module():
                 result['message'] = "Could not kill OVO"
                 result['Executed command'] = command
                 result['Exit code'] = exit
-                module.fail_json(msg='Could not execute command: exit code is 0', **result)
+                module.fail_json(msg='Could not execute command: exit code is not 0', **result)
             else:
                 result['changed'] = True
                 result['message'] = "OVO is killed"
