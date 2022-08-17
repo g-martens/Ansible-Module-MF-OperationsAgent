@@ -17,68 +17,44 @@ DOCUMENTATION = r'''
 ---
 module: operationsagent
 
-short_description: This is my test module
-
-# If this is part of a collection, you need to use semantic versioning,
-# i.e. the version is of the form "2.5.0" and not "2.4".
-version_added: "1.0.0"
+short_description: With this module, you can execute some commands from te Microfocus Operations Agent
 
 description: This is my longer description explaining my test module.
 
 options:
-    name:
-        description: This is the message to send to the test module.
+    process:
+        description: With process, you can specify with tool you want to use
         required: true
         type: str
-    new:
-        description:
-            - Control to demo if the result of this module is changed or not.
-            - Parameter description can be a list as well.
-        required: false
-        type: bool
-# Specify this value according to your collection
-# in format of namespace.collection.doc_fragment_name
+    action:
+        description: with action, you can specify which action you want to execute with process
+        required: true
+        type: str
 
 author:
     - Guido Martens (@g-martens)
 '''
 
 EXAMPLES = r'''
-# Pass in a message
-- name: Test with a message
-  my_namespace.my_collection.my_test:
-    name: hello world
+# Start the OVO process from the Operations Agent
+- name: start the ovo process
+  operationsagent:
+    process: ovo
+    action: start
 
-# pass in a message and have changed true
-- name: Test with a message and changed output
-  my_namespace.my_collection.my_test:
-    name: hello world
-    new: true
+# Start the opcagt process from the Operations Agent
+- name: start the opcagt process
+  operationsagent:
+    process: ovo
+    action: start
 
-# fail the module
-- name: Test failure of the module
-  my_namespace.my_collection.my_test:
-    name: fail me
-'''
-
-RETURN = r'''
-# These are examples of possible return values, and in general should use other names for return values.
-original_message:
-    description: The original name param that was passed in.
-    type: str
-    returned: always
-    sample: 'hello world'
-message:
-    description: The output message that the test module generates.
-    type: str
-    returned: always
-    sample: 'goodbye'
 '''
 
 from ansible.module_utils.basic import AnsibleModule
 
 
 def run_module():
+    #Declare default Vars and put them on False
     oa_ovo = False
     oa_opcagt = False
     oa_ovcert = False
@@ -87,23 +63,16 @@ def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
         process=dict(type='str', required=True),
-        action=dict(type='str', required=False, default=False)
+        action=dict(type='str', required=True,)
     )
 
     # seed the result dict in the object
-    # we primarily care about changed and state
-    # changed is if this module effectively modified the target
-    # state will include any data that you want your module to pass back
-    # for consumption, for example, in a subsequent task
     result = dict(
         changed=False,
         original_message='',
         message=''
     )
 
-    # the AnsibleModule object will be our abstraction working with Ansible
-    # this includes instantiation, a couple of common attr would be the
-    # args/params passed to the execution, as well as if the module
     # supports check mode
     module = AnsibleModule(
         argument_spec=module_args,
@@ -130,8 +99,6 @@ def run_module():
     if not oa_ovo and not oa_opcagt and not oa_ovcert and not oa_ovconfchg:
         module.fail_json(msg='Bad input - valid inputs are: opcagt, ovo, ovcert, ovconfchg', **result)
 
-    # manipulate or modify the state as needed (this is going to be the
-    # part where your module will do what it needs to do)
 
 
     # Actions for the process ovo
@@ -224,24 +191,6 @@ def run_module():
         module.fail_json(msg='opcagt is not yet inplementated', **result)
 
 
-
-
-    #result['original_message'] = module.params['name']
-    #result['message'] = 'goodbye'
-
-    # use whatever logic you need to determine whether or not this module
-    # made any modifications to your target
-    #if module.params['new']:
-    #    result['changed'] = True
-
-    # during the execution of the module, if there is an exception or a
-    # conditional state that effectively causes a failure, run
-    # AnsibleModule.fail_json() to pass in the message and the result
-    #if module.params['name'] == 'fail me':
-    #    module.fail_json(msg='You requested this to fail', **result)
-
-    # in the event of a successful module execution, you will want to
-    # simple AnsibleModule.exit_json(), passing the key/value results
     module.exit_json(**result)
 
 
