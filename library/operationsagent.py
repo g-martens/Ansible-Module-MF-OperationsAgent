@@ -4,7 +4,10 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import (absolute_import, division, print_function)
 from pickletools import TAKEN_FROM_ARGUMENT4U
-from subprocess import run # needed to execute commands on linux
+# needed to execute commands on linux
+from subprocess import run
+import os
+import sys
 
 __metaclass__ = type
 
@@ -136,9 +139,9 @@ def run_module():
         action = module.params['action']
 
         if action == 'start':
-            tool = '/bin/cat '
-            p = run( [ '/bin/cat ' '/etc/nfs.conf' ])
-            exit = p.returncode
+            command = os.system("/bin/cat ' '/etc/nfs.conf")
+
+            exit = sys.exit (command)
 
             #Result output
             result['Executed tool'] = tool
