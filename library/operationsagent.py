@@ -139,7 +139,7 @@ def run_module():
 #            tool = '/opt/OV/bin/ovo'
             tool = '/bin/cat '
             #p = run( [ tool, '-start' ])
-            p = run( [ '/bin/cat ' '/etc/nfs.conf' ])
+            p = run( [ '/bin/cat ' '/etc/nfs.conf', shell=True ])
             exit = p.returncode
             #Result output
             result['Executed tool'] = tool
