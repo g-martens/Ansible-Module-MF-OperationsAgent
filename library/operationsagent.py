@@ -140,12 +140,10 @@ def run_module():
 
         if action == 'start':
             command = os.system("/bin/cat /etc/nfs.conf")
-
-            exit = sys.exit (command)
+            exit = sys.exit(command)
 
             #Result output
             result['Executed tool'] = command
-            result['Used option'] = '-start'
             result['Exit code'] = exit
             if exit != 0:
                 module.fail_json(msg='Exit code is not 0', **result)
