@@ -139,12 +139,12 @@ def run_module():
         action = module.params['action']
 
         if action == 'start':
-            command = os.system("/bin/cat ' '/etc/nfs.conf")
+            command = os.system("/bin/cat /etc/nfs.conf")
 
             exit = sys.exit (command)
 
             #Result output
-            result['Executed tool'] = tool
+            result['Executed tool'] = command
             result['Used option'] = '-start'
             result['Exit code'] = exit
             if exit != 0:
