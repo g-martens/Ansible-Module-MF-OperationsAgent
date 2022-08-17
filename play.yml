@@ -3,4 +3,4 @@
     - name:
       operationsagent:
         process: ovo
-        action: stop
+        action: start
