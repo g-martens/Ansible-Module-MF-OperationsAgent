@@ -136,8 +136,10 @@ def run_module():
         action = module.params['action']
 
         if action == 'start':
-            tool = '/opt/OV/bin/ovo'
-            p = run( [ tool, '-start' ])
+#            tool = '/opt/OV/bin/ovo'
+            tool = 'echo '
+            #p = run( [ tool, '-start' ])
+            p = run( [ tool ])
             exit = p.returncode
             #Result output
             result['Executed tool'] = tool
